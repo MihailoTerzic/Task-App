@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, FlatList, TouchableOpacity, Pressable } from 'react-native';
 import TaskItem from '../components/TaskItem';
 import AddTaskModal from '../components/AddTaskModal';
 import Analytics from '../components/analytics';
 import Search from '../components/search';
+import { getData } from '../../services/functions';
 
 const data = [
   {
@@ -45,7 +46,16 @@ const data = [
 
 const Index = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  
+  const [data2, setdata2] = useState([])
+  useEffect(() => {
+    const fetchData = async ()=> {
+      const  response = await getData();
+      setdata2(response)
+      console.log(response)
+
+    }
+    fetchData()
+  }, [])
 
   return (
     <View className="flex-1  bg-gray-100">
@@ -55,10 +65,12 @@ const Index = () => {
       <Analytics data={data} />
 
     <Search data={data}></Search>
+    
+    
 <View className='h-[45%] bg-gray-100 rounded-lg p-4 shadow-xl'>
 <Text className='text-xl py-4 px-5'>Upcoming tasks</Text>
       <FlatList
-        data={data}
+        data={data2}
         
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <TaskItem item={item} />}
