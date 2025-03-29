@@ -64,7 +64,7 @@ const Search = ({ data }) => {
           {/* Display filtered list in FlatList */}
           <FlatList
             data={filteredList}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => item.$id.toString()}
             renderItem={({ item }) => <TaskItem item={item} />} // Assuming TaskItem component is defined
           />
         </View>

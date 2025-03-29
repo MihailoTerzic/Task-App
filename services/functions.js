@@ -15,8 +15,9 @@ export  const getData = async ()=> {
 }
 
 export const createTask = async (data)=> {
+    
     try {
-          await database.createDocument(envs.DATABASE_ID, envs.COLLECTION_ID, ID.unique(),data)
+          await database.createDocument(envs.DATABASE_ID, envs.COLLECTION_ID,ID.unique(),data)
     }
     catch(error) {
         console.error(error)

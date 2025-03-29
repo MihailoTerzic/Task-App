@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { Switch, View, Text, Modal, TextInput, TouchableOpacity } from 'react-native';
 import { ID } from 'react-native-appwrite';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { createTask } from '../../services/functions';
 
-const AddTaskModal = ({ setModalVisible, modalVisible }) => {
+const AddTaskModal = ({ setModalVisible, modalVisible,enableEdit }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState(new Date()); // Default to current date
@@ -44,7 +45,11 @@ const AddTaskModal = ({ setModalVisible, modalVisible }) => {
     setModalVisible(false);
   };
 
-  const handleAdd = () => {
+const handleEdit = () => {
+console.log('editt')
+} 
+
+  const handleAdd = async () => {
     // Reset previous errors
     let valid = true;
 
@@ -76,13 +81,22 @@ const AddTaskModal = ({ setModalVisible, modalVisible }) => {
       title,
       description,
       completed: expired,
-      $id: ID.unique(),
       date: combinedDateTime,
+      // bio dodat id ali sam obrisao jer appwrite ima svoj integrisani $id
     };
 
-    console.log(data);
+    //console.log(data);
+   
+    try {
+      const response = await createTask(data)
+      
+    } catch (error) {
+      console.error(error)
+
+    }
 
     resetForm(); // Reset all fields after successful submission
+    setModalVisible(false)
   };
 
   // Format selected date and time for display
@@ -181,6 +195,15 @@ const AddTaskModal = ({ setModalVisible, modalVisible }) => {
             <TouchableOpacity onPress={handleCloseModal} className="bg-red-500 px-6 py-2 rounded-md">
               <Text className="text-white font-bold text-lg">Close</Text>
             </TouchableOpacity>
+
+            {enableEdit &&
+            <TouchableOpacity
+            onPress={handleEdit} className='bg-green-500 px-6 py-2 rounded-md'>
+              
+              <Text className="text-white font-bold text-lg">Edit</Text>
+            </TouchableOpacity>
+          }
+           
             <TouchableOpacity onPress={handleAdd} className="bg-blue-500 px-6 py-2 rounded-md">
               <Text className="text-white font-bold text-lg">Add</Text>
             </TouchableOpacity>

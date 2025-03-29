@@ -62,9 +62,9 @@ const Index = () => {
       <Text className="text-center text-4xl font-extrabold my-5 text-blue-500 tracking-wide">
         📅 Tasks
       </Text>
-      <Analytics data={data} />
+      <Analytics data={data2} />
 
-    <Search data={data}></Search>
+    <Search data={data2}></Search>
     
     
 <View className='h-[45%] bg-gray-100 rounded-lg p-4 shadow-xl'>
@@ -72,7 +72,7 @@ const Index = () => {
       <FlatList
         data={data2}
         
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.$id.toString()}
         renderItem={({ item }) => <TaskItem item={item} />}
         />
         </View>
@@ -89,7 +89,7 @@ const Index = () => {
         </Text>
       </TouchableOpacity>
 
-      <AddTaskModal setModalVisible={setModalVisible} modalVisible={modalVisible} />
+      <AddTaskModal setModalVisible={setModalVisible} modalVisible={modalVisible} enableEdit={false} />
     </View>
   );
 };
