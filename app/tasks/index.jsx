@@ -51,7 +51,7 @@ const Index = () => {
     const fetchData = async ()=> {
       const  response = await getData();
       setdata2(response)
-      console.log(response)
+    //  console.log(response)
 
     }
     fetchData()

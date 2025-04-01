@@ -1,28 +1,54 @@
 import { useLocalSearchParams } from 'expo-router';
-import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, ActivityIndicator, FlatList } from 'react-native';
+import { perDateTask } from '../../services/functions';
+import TaskItem from '../components/TaskItem';
+
 
 const TaskDate = () => {
+    const [data, setdata] = useState([])
+    const [loading, setloading] = useState(true)
     const { date } = useLocalSearchParams();
+   // console.log('Date fromat',date)
 
-    // Check if 'date' exists before attempting to split
-    const formattedDate = date ? date.split('-').reverse().join('-') : null;
+    
+    const today = new Date().toISOString().split("T")[0];
+  
 
-    // Get today's date if 'date' is not passed
-    const today = new Date();
+    let fetchDate = date || today
 
-    // Get the day, month, and year
-    const day = today.getDate().toString().padStart(2, '0'); // Ensures two digits (e.g., '01', '09')
-    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based, so add 1
-    const year = today.getFullYear();
 
-    // Format as DD-MM-YYYY
-    const date2 = `${day}-${month}-${year}`;
-
+     useEffect(() => {
+         const fetchData = async ()=> {
+            setloading(true)
+            console.log('Fetchdate format',fetchDate)
+          const  response = await perDateTask(fetchDate);
+          setdata(response)
+          console.log(response)
+         setloading(false)
+    
+        }
+        fetchData()
+      }, [date])
+    
     return (
-        <View>
-            <Text className='text-center text-2xl font-semibold my-5'> {formattedDate ? formattedDate : date2}</Text>
+        
+            <View>
+            <Text className='text-center text-2xl font-semibold my-5'> {fetchDate}</Text>
             <Text className='text-center text-xl '>Saved tasks for this date:</Text>
+            
+            {loading ? (
+            <ActivityIndicator size="large" color="#0000ff" className="my-5" />
+        ) : (
+            <FlatList
+                data={data}
+                keyExtractor={(item) => item.$id.toString()}
+                renderItem={({ item }) => <TaskItem item={item} />}
+                 />
+              
+            
+        )}
+
         </View>
     );
 }
