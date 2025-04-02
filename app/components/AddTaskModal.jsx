@@ -4,7 +4,8 @@ import { ID } from 'react-native-appwrite';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { createTask } from '../../services/functions';
 
-const AddTaskModal = ({ setModalVisible, modalVisible,enableEdit }) => {
+const AddTaskModal = ({ setModalVisible, modalVisible,header,data }) => {
+ 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [date, setDate] = useState(new Date()); // Default to current date
@@ -57,10 +58,7 @@ console.log('editt')
       setTitleError('Title is required');
       valid = false;
     }
-    if (!description.trim()) {
-      setDescriptionError('Description is required');
-      valid = false;
-    }
+  
     if (!dateSelected) {
       setDateError('Please select a date');
       valid = false;
@@ -114,7 +112,7 @@ console.log('editt')
         <View className="bg-white p-6 rounded-2xl w-[85%] shadow-lg">
           {/* Header */}
           <Text className="text-2xl font-bold text-center text-gray-800 mb-4">
-            Add New Task 📝
+            {header} Task 📝
           </Text>
 
           {/* Title Input */}
@@ -196,13 +194,7 @@ console.log('editt')
               <Text className="text-white font-bold text-lg">Close</Text>
             </TouchableOpacity>
 
-            {enableEdit &&
-            <TouchableOpacity
-            onPress={handleEdit} className='bg-green-500 px-6 py-2 rounded-md'>
-              
-              <Text className="text-white font-bold text-lg">Edit</Text>
-            </TouchableOpacity>
-          }
+        
            
             <TouchableOpacity onPress={handleAdd} className="bg-blue-500 px-6 py-2 rounded-md">
               <Text className="text-white font-bold text-lg">Add</Text>

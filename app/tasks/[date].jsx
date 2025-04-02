@@ -21,10 +21,10 @@ const TaskDate = () => {
      useEffect(() => {
          const fetchData = async ()=> {
             setloading(true)
-            console.log('Fetchdate format',fetchDate)
+           // console.log('Fetchdate format',fetchDate)
           const  response = await perDateTask(fetchDate);
           setdata(response)
-          console.log(response)
+       //   console.log(response)
          setloading(false)
     
         }
@@ -34,20 +34,20 @@ const TaskDate = () => {
     return (
         
             <View>
-            <Text className='text-center text-2xl font-semibold my-5'> {fetchDate}</Text>
-            <Text className='text-center text-xl '>Saved tasks for this date:</Text>
+            <Text className='text-center text-2xl font-semibold my-5'> {!date || date === today ? 'Today' : date.split('-').reverse().join('-')} tasks</Text>
+            <Text className='text-center text-xl mb-10'>Saved tasks for this date:</Text>
             
             {loading ? (
-            <ActivityIndicator size="large" color="#0000ff" className="my-5" />
-        ) : (
-            <FlatList
-                data={data}
-                keyExtractor={(item) => item.$id.toString()}
-                renderItem={({ item }) => <TaskItem item={item} />}
-                 />
-              
-            
-        )}
+  <ActivityIndicator size="large" color="#0000ff" className="my-5" />
+) : data.length === 0 ? (
+  <Text className="text-center text-gray-500 my-5">No tasks found for this date.</Text>
+) : (
+  <FlatList
+    data={data}
+    keyExtractor={(item) => item.$id.toString()}
+    renderItem={({ item }) => <TaskItem item={item} />}
+  />
+)}
 
         </View>
     );

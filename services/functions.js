@@ -6,7 +6,7 @@ import { account,database,client,envs } from "./config";
 export  const getData = async ()=> {
 
     try {
-        const result = await database.listDocuments(envs.DATABASE_ID,envs.COLLECTION_ID,[])
+        const result = await database.listDocuments(envs.DATABASE_ID,envs.COLLECTION_ID,[ Query.orderAsc('date')])
       //  console.log(result.documents)
         return result.documents
     } catch (error) {
@@ -20,6 +20,23 @@ export const createTask = async (data)=> {
           await database.createDocument(envs.DATABASE_ID, envs.COLLECTION_ID,ID.unique(),data)
     }
     catch(error) {
+        console.error(error)
+    }
+}
+
+export const editTask = async(data,id)=> {
+    try {
+        await database.updateDocument(envs.DATABASE_ID,envs.COLLECTION_ID,id,data)
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+export const deleteTask = async(id)=> {
+    
+    try {
+        await database.deleteDocument(envs.DATABASE_ID,envs.COLLECTION_ID,id)
+    } catch (error) {
         console.error(error)
     }
 }
@@ -38,9 +55,10 @@ export const perDateTask = async (date)=> {
         envs.COLLECTION_ID,
         [
           Query.greaterThan('date', startOfDay),
-          Query.lessThan('date', endOfDay)
+          Query.lessThan('date', endOfDay),
+          Query.orderAsc('date')
         ])  
-     console.log('Fetched data', result.documents)
+   //  console.log('Fetched data', result.documents)
         return result.documents
     } catch (error) {
         console.error(error)
