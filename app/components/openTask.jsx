@@ -28,7 +28,7 @@ const OpenTask = ({ data, setModalVisible, modalVisible,setReload }) => {
 try {
    const response =  await deleteTask($id)
     console.log('Succesfuly deleted')
-    setReload(true)
+    setReload(r=>!r)
     setModalVisible(false)
 } catch (error) {
     console.error(error)
@@ -84,7 +84,7 @@ try {
           </Pressable>
         </View>
       </View>
-      <AddTaskModal setModalVisible={setModalVisible2} modalVisible={modalVisible2} header='Edit' data={data} setOpenVisible={setModalVisible}></AddTaskModal>
+      <AddTaskModal setModalVisible={setModalVisible2} modalVisible={modalVisible2} header='Edit' data={data} setOpenVisible={setModalVisible} setReload={setReload}></AddTaskModal>
     </Modal>
   );
 };

@@ -3,7 +3,7 @@ import { Switch, View, Text, Modal, TextInput, TouchableOpacity } from 'react-na
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { createTask, editTask } from '../../services/functions';
 
-const AddTaskModal = ({ setModalVisible, modalVisible, header, data, setOpenVisible }) => {
+const AddTaskModal = ({ setModalVisible, modalVisible, header, data, setOpenVisible,setReload }) => {
   const [form, setForm] = useState({
     title: '',
     description: '',
@@ -76,6 +76,7 @@ const AddTaskModal = ({ setModalVisible, modalVisible, header, data, setOpenVisi
   const handleSubmit = async () => {
     if (!validateForm()) return;
 
+
     const payload = {
       title: form.title,
       description: form.description,
@@ -96,6 +97,7 @@ const AddTaskModal = ({ setModalVisible, modalVisible, header, data, setOpenVisi
     resetForm();
     setModalVisible(false);
     if (setOpenVisible) setOpenVisible(false);
+    setReload(r=>!r)
   };
 
   return (

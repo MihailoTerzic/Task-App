@@ -61,7 +61,7 @@ const Index = () => {
         </Text>
       </TouchableOpacity>
 
-      <AddTaskModal setModalVisible={setModalVisible} modalVisible={modalVisible} header='Add' />
+      <AddTaskModal setModalVisible={setModalVisible} modalVisible={modalVisible} header='Add' setReload={setReload} />
       </View>
       )
     }
@@ -71,8 +71,5 @@ const Index = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  // Optional styles for further customizations
-});
 
 export default Index;
