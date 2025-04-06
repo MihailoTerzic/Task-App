@@ -8,6 +8,7 @@ import TaskItem from '../components/TaskItem';
 const TaskDate = () => {
     const [data, setdata] = useState([])
     const [loading, setloading] = useState(true)
+    const [reload, setReload] = useState(false);
     const { date } = useLocalSearchParams();
    // console.log('Date fromat',date)
 
@@ -29,7 +30,7 @@ const TaskDate = () => {
     
         }
         fetchData()
-      }, [date])
+      }, [date,reload])
     
     return (
         

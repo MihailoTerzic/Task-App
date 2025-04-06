@@ -5,7 +5,7 @@ import { deleteTask } from '../../services/functions';
 
 
 const OpenTask = ({ data, setModalVisible, modalVisible,setReload }) => {
-  const { title, description, date, expired,$id } = data;
+  const { title, description, date, completed,$id } = data;
   const [modalVisible2, setModalVisible2] = useState(false)
 
   const formattedDateObj = new Date(date);
@@ -58,8 +58,8 @@ try {
           </View>
 
           {/* Expiry Status */}
-          <Text className={`text-lg font-semibold text-center mt-3 ${expired ? 'text-red-500' : 'text-green-500'}`}>
-            {expired ? 'Expired' : 'Active'}
+          <Text className={`text-lg font-semibold text-center mt-3 ${completed ? 'text-red-500' : 'text-green-500'}`}>
+            {completed ? 'Expired' : 'Active'}
           </Text>
 
           {/* Edit & Delete Buttons */}

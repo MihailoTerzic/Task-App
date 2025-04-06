@@ -1,29 +1,23 @@
 import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextInput, View, Pressable, Text, Modal, FlatList } from 'react-native';
-import TaskItem from '../components/TaskItem'; // Assuming TaskItem component is defined correctly
+import TaskItem from '../components/TaskItem';
 
-const Search = ({ data }) => {
+const Search = ({ data, setReload }) => {
   const [filteredList, setFilteredList] = useState([]);
   const [searchWord, setSearchWord] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
 
-  // Function to handle search and filter data
-  const handleSubmit = () => {
-    // Filter data based on the search text
-    if (searchWord) {
+  // Re-run filtering every time modal opens or data/searchWord changes
+  useEffect(() => {
+    if (modalVisible && searchWord.trim() !== '') {
       const filtered = data.filter(item =>
         item.title.toLowerCase().includes(searchWord.toLowerCase()) ||
         item.description.toLowerCase().includes(searchWord.toLowerCase())
       );
-      setFilteredList(filtered); // Set the filtered data
-    } else {
-      setFilteredList(data); // If search text is empty, show all data
+      setFilteredList(filtered);
     }
-    
-    // Open the modal to display results
-    setModalVisible(true);
-  };
+  }, [modalVisible, data, searchWord]);
 
   return (
     <View className="flex flex-row justify-between items-center border-gray-300 rounded-lg shadow-lg px-4 py-4 my-5">
@@ -38,7 +32,7 @@ const Search = ({ data }) => {
       {/* Search Button */}
       <Pressable
         className="p-3"
-        onPress={handleSubmit} // Call handleSubmit when pressed
+        onPress={() => setModalVisible(true)} // Just open modal
       >
         <Ionicons name="search" color="blue" size={24} />
       </Pressable>
@@ -46,26 +40,28 @@ const Search = ({ data }) => {
       {/* Modal to display filtered tasks */}
       <Modal
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)} // Close modal when clicked outside
+        onRequestClose={() => setModalVisible(false)}
         animationType="slide"
       >
         <View className="flex-1 bg-white p-5">
-          {/* Close button to hide the modal */}
+          {/* Close button */}
           <Pressable
             onPress={() => {
               setModalVisible(false);
-              setSearchWord(''); // Reset search word
+              setSearchWord('');
             }}
             className="bg-red-500 p-3 rounded-lg mb-5 bottom-5 z-10 absolute self-center w-[90%]"
           >
             <Text className="text-white text-center text-lg">Close</Text>
           </Pressable>
 
-          {/* Display filtered list in FlatList */}
+          {/* Filtered List */}
           <FlatList
             data={filteredList}
             keyExtractor={(item) => item.$id.toString()}
-            renderItem={({ item }) => <TaskItem item={item} />} // Assuming TaskItem component is defined
+            renderItem={({ item }) => (
+              <TaskItem item={item} setReload={setReload} />
+            )}
           />
         </View>
       </Modal>

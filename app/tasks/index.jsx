@@ -36,7 +36,7 @@ const Index = () => {
       </Text>
       <Analytics data={data} />
 
-    <Search data={data}></Search>
+    <Search data={data} setReload={setReload}></Search>
     
     
 <View className='h-[45%] bg-gray-100 rounded-lg p-4 shadow-xl'>

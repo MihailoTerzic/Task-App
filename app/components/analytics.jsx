@@ -25,15 +25,16 @@ const isDateInRange = (taskDate, startDate, endDate) => {
 };
 
 const Analytics = ({ data }) => {
+  const newData = data.filter(item => item.completed === false)
   // Filter tasks based on time periods
-  const todayTasks = data.filter((task) => task.date.startsWith(today));
-  const weeklyTasks = data.filter((task) => isDateInRange(task.date, startOfWeek, endOfWeek));
-  const monthlyTasks = data.filter((task) => isDateInRange(task.date, startOfMonth, endOfMonth));
+  const todayTasks = newData.filter((task) => task.date.startsWith(today));
+  const weeklyTasks = newData.filter((task) => isDateInRange(task.date, startOfWeek, endOfWeek));
+  const monthlyTasks = newData.filter((task) => isDateInRange(task.date, startOfMonth, endOfMonth));
 
   return (
     <View className="flex flex-row justify-around my-5">
       {[
-        { label: "Next", value: data.length },
+        { label: "Next", value: data.filter(item => item.completed === false).length },
         { label: "Today", value: todayTasks.length },
         { label: "Weekly", value: weeklyTasks.length },
         { label: "Monthly", value: monthlyTasks.length },
