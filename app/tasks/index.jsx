@@ -61,7 +61,7 @@ const Index = () => {
         </Text>
       </TouchableOpacity>
 
-      <AddTaskModal setModalVisible={setModalVisible} modalVisible={modalVisible} header='Add New' />
+      <AddTaskModal setModalVisible={setModalVisible} modalVisible={modalVisible} header='Add' />
       </View>
       )
     }

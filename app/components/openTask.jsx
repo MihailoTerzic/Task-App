@@ -3,6 +3,7 @@ import { View, Text, Pressable, Modal, Alert } from 'react-native';
 import AddTaskModal from './AddTaskModal';
 import { deleteTask } from '../../services/functions';
 
+
 const OpenTask = ({ data, setModalVisible, modalVisible,setReload }) => {
   const { title, description, date, expired,$id } = data;
   const [modalVisible2, setModalVisible2] = useState(false)
@@ -83,7 +84,7 @@ try {
           </Pressable>
         </View>
       </View>
-      <AddTaskModal  setModalVisible={setModalVisible2} modalVisible={modalVisible2} header='Edit' editableData={data}/>
+      <AddTaskModal setModalVisible={setModalVisible2} modalVisible={modalVisible2} header='Edit' data={data} setOpenVisible={setModalVisible}></AddTaskModal>
     </Modal>
   );
 };
